@@ -4,17 +4,21 @@ var searchButton = $('#search-button');
 var forecastContainer = $('#five-day-forecast')
 var oneDayContainer = $('.one-day-forecast')
 
+setInterval(function () {
+
+  $("#current-date-and-time").text(moment().format('MMMM Do YYYY, h:mm:ss a'))
+}, 1000);
 
 
 function getTodaysWeather(city) {
-    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=40.5&lon=74.4&exclude=hourly,minutely&units=metric&appid=' + apiKey)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data)
-        
-            oneDayContainer.append(`<div class="card" style="width: 18rem;">
+  fetch('https://api.openweathermap.org/data/2.5/onecall?lat=40.5&lon=74.4&exclude=hourly,minutely&units=metric&appid=' + apiKey)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data)
+
+      oneDayContainer.append(`<div class="card" style="width: 18rem;">
             <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">${city}</h5>
@@ -26,10 +30,10 @@ function getTodaysWeather(city) {
             </div>
           </div>`)
 
-            for (let i = 0; i < 5; i++) {
-                var day = data.daily[i]
+      for (let i = 0; i < 5; i++) {
+        var day = data.daily[i]
 
-                forecastContainer.append(`<div class="card" style="width: 18rem;">
+        forecastContainer.append(`<div class="card" style="width: 18rem;">
             <img src="http://openweathermap.org/img/wn/${data.current.weather[0].icon}@2x.png" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">${city}</h5>
@@ -40,7 +44,8 @@ function getTodaysWeather(city) {
               <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
           </div>`)
-            }
-        })
+      }
+    })
 }
+
 getTodaysWeather('new york');
